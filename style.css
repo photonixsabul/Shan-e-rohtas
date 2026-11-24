@@ -283,9 +283,7 @@ a[href^="tel"]:hover, .gold-link:hover {
 
 /* Dual Typography */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: inline-block;
   font-family: var(--font-sans);
   font-size: 0.74rem;
   font-weight: 700;
@@ -293,13 +291,6 @@ a[href^="tel"]:hover, .gold-link:hover {
   text-transform: uppercase;
   color: var(--gold-bright);
   margin-bottom: 14px;
-}
-
-.eyebrow::before {
-  content: '';
-  width: 24px;
-  height: 1.5px;
-  background: currentColor;
 }
 
 .tone-light .eyebrow, .tone-cream-alt .eyebrow {

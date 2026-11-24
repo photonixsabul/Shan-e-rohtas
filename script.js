@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Royal Preloader Curtain (fast & smooth)
+  // 1. Royal Preloader Curtain
   const preloader = document.getElementById('preloader');
   if (preloader) {
-    const hideLoader = () => {
-      setTimeout(() => preloader.classList.add('hide'), 450);
-    };
+    const hideLoader = () => setTimeout(() => preloader.classList.add('hide'), 400);
     if (document.readyState === 'complete') hideLoader();
     else window.addEventListener('load', hideLoader);
-    setTimeout(() => preloader.classList.add('hide'), 1800);
+    setTimeout(() => preloader.classList.add('hide'), 1700);
   }
 
-  // 2. Scroll Progress Gold Bar & Sticky Navbar
+  // 2. Scroll Progress Gold Bar & Sticky Glass Navbar
   const progressBar = document.getElementById('scroll-progress');
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', () => {
@@ -19,12 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (progressBar && docHeight > 0) {
       progressBar.style.width = `${Math.min(100, (scrollTop / docHeight) * 100)}%`;
     }
-    if (navbar) {
-      navbar.classList.toggle('scrolled', scrollTop > 36);
-    }
+    if (navbar) navbar.classList.toggle('scrolled', scrollTop > 36);
   }, { passive: true });
 
-  // 3. Full-Screen Mobile Glass Drawer Toggle
+  // 3. Mobile Full-Screen Glass Drawer
   const toggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (toggle && navLinks) {
@@ -42,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. Advanced Scroll Reveal & Curtain Unfold
+  // 4. Scroll Reveal & Curtain Unfold
   const revealEls = document.querySelectorAll('.reveal, .reveal-curtain');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -51,11 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
 
   revealEls.forEach((el) => observer.observe(el));
 
-  // 5. Ambient Floating Gold Dust Particles on Dark Hero
+  // 5. Ambient Gold Dust Particles Canvas
   const canvas = document.getElementById('gold-particles');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -67,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resize();
     window.addEventListener('resize', resize);
 
-    const count = window.innerWidth < 768 ? 22 : 44;
+    const count = window.innerWidth < 768 ? 24 : 48;
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -84,10 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
-        if (p.y < -10) {
-          p.y = canvas.height + 10;
-          p.x = Math.random() * canvas.width;
-        }
+        if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         ctx.beginPath();
@@ -100,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateParticles();
   }
 
-  // 6. Desktop 3D Perspective Tilt on Hero Card
+  // 6. Desktop 3D Perspective Tilt
   const tiltCard = document.querySelector('.tilt-card');
   if (tiltCard && window.matchMedia('(pointer: fine)').matches) {
     tiltCard.addEventListener('mousemove', (e) => {
@@ -114,7 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 7. Interactive Filter Tabs (Gallery & Menu)
+  // 7. Interactive FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach((el) => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // 8. Interactive Filter Tabs (Gallery & Menu)
   document.querySelectorAll('.filter-tabs').forEach((tabGroup) => {
     const targetSelector = tabGroup.dataset.target;
     const buttons = tabGroup.querySelectorAll('.filter-btn');
@@ -132,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 8. Interactive Lightbox with Next / Prev Navigation
+  // 9. Interactive Lightbox with Next / Prev
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxClose = document.getElementById('lightbox-close');
@@ -148,21 +151,19 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.classList.add('open');
   };
 
-  galleryImgs.forEach((img, i) => {
-    img.addEventListener('click', () => openLightbox(i));
-  });
-
+  galleryImgs.forEach((img, i) => img.addEventListener('click', () => openLightbox(i)));
   if (lightboxPrev) lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(currentIdx - 1); });
   if (lightboxNext) lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(currentIdx + 1); });
-
   if (lightboxClose && lightbox) {
     lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) lightbox.classList.remove('open');
-    });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
   }
 
-  // 9. WhatsApp Direct Booking Form
+  // 10. WhatsApp Direct Booking Form + GA4 Lead Tracking
+  const trackEvent = (eventName, params) => {
+    if (typeof gtag === 'function') gtag('event', eventName, params);
+  };
+
   const bookingForm = document.getElementById('whatsapp-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
@@ -173,6 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const date = document.getElementById('guest-date').value;
       const guests = document.getElementById('guest-count').value;
       const notes = document.getElementById('guest-notes').value.trim();
+
+      trackEvent('generate_lead', {
+        event_category: 'booking_form',
+        event_label: service,
+        page_path: window.location.pathname
+      });
 
       const msg = `Hello Shan-E-Rohtas,%0A` +
                   `Name: ${encodeURIComponent(name)}%0A` +
@@ -185,13 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(`https://wa.me/917042566700?text=${msg}`, '_blank');
     });
   }
-
-  // 10. Google Analytics 4 Lead Tracking (WhatsApp, Call, Booking Form)
-  const trackEvent = (eventName, params) => {
-    if (typeof gtag === 'function') {
-      gtag('event', eventName, params);
-    }
-  };
 
   document.querySelectorAll('a[href*="wa.me"]').forEach((link) => {
     link.addEventListener('click', () => {
@@ -212,15 +212,4 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
-
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', () => {
-      const serviceEl = document.getElementById('guest-service');
-      trackEvent('generate_lead', {
-        event_category: 'booking_form',
-        event_label: serviceEl ? serviceEl.value : 'Booking Form',
-        page_path: window.location.pathname
-      });
-    });
-  }
 });

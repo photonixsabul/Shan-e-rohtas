@@ -1637,23 +1637,50 @@ a[href^="tel"]:hover, .gold-link:hover {
   .brand-sub { font-size: 0.55rem; letter-spacing: 1.5px; }
   .menu-toggle { display: flex; }
   .nav-links {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at top right, rgba(13, 54, 37, 0.96), rgba(3, 17, 11, 0.99));
-    backdrop-filter: blur(22px);
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 14px;
+    right: 14px;
+    background: rgba(4, 21, 14, 0.96);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1.5px solid rgba(245, 215, 116, 0.42);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 18px;
-    padding: 32px;
+    gap: 6px;
+    padding: 18px 20px 22px;
+    max-height: 75vh;
+    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
-    transition: opacity 0.4s var(--ease-luxury), transform 0.4s var(--ease-luxury), visibility 0.4s;
+    pointer-events: none;
+    transform: translateY(-12px) scale(0.98);
+    transition: opacity 0.32s var(--ease-luxury), transform 0.32s var(--ease-luxury), visibility 0.32s;
     z-index: 1300;
   }
-  .nav-links.open { opacity: 1; visibility: visible; transform: translateY(0); }
-  .nav-links a { font-size: 1.15rem; }
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1.02rem;
+    border-radius: 10px;
+  }
+  .nav-links a.nav-cta {
+    margin-top: 8px;
+  }
   .split-media img { height: 265px; }
   .hero-card { padding: 18px; }
   .hero-card-img { height: 200px; }

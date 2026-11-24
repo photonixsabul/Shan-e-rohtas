@@ -20,22 +20,37 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navbar) navbar.classList.toggle('scrolled', scrollTop > 36);
   }, { passive: true });
 
-  // 3. Mobile Full-Screen Glass Drawer
+  // 3. Mobile Glass Dropdown Menu (Auto-Close on Outside Touch + Scroll Enabled)
   const toggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (toggle && navLinks) {
-    toggle.addEventListener('click', () => {
+    const closeMenu = () => {
+      navLinks.classList.remove('open');
+      toggle.classList.remove('open');
+    };
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isOpen = navLinks.classList.toggle('open');
       toggle.classList.toggle('open', isOpen);
-      document.body.classList.toggle('no-scroll', isOpen);
     });
+
     navLinks.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        toggle.classList.remove('open');
-        document.body.classList.remove('no-scroll');
-      });
+      link.addEventListener('click', closeMenu);
     });
+
+    // Close menu automatically when tapping anywhere outside on the page
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('touchstart', (e) => {
+      if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    }, { passive: true });
   }
 
   // 4. Scroll Reveal & Curtain Unfold

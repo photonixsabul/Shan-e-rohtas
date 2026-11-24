@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Navigation Toggle
   const toggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (toggle && navLinks) {
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sticky Navbar Shadow
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', () => {
     if (navbar) {
@@ -16,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Scroll Reveal Animation
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -24,11 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08 });
 
   revealEls.forEach((el) => observer.observe(el));
 
-  // Gallery Lightbox
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxClose = document.getElementById('lightbox-close');
@@ -49,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // WhatsApp Direct Booking Form
   const bookingForm = document.getElementById('whatsapp-booking-form');
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {

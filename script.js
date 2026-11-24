@@ -185,4 +185,42 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(`https://wa.me/917042566700?text=${msg}`, '_blank');
     });
   }
+
+  // 10. Google Analytics 4 Lead Tracking (WhatsApp, Call, Booking Form)
+  const trackEvent = (eventName, params) => {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, params);
+    }
+  };
+
+  document.querySelectorAll('a[href*="wa.me"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      trackEvent('whatsapp_click', {
+        event_category: 'lead',
+        event_label: link.textContent.trim() || 'WhatsApp Link',
+        page_path: window.location.pathname
+      });
+    });
+  });
+
+  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      trackEvent('phone_call_click', {
+        event_category: 'lead',
+        event_label: link.textContent.trim() || 'Phone Call',
+        page_path: window.location.pathname
+      });
+    });
+  });
+
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', () => {
+      const serviceEl = document.getElementById('guest-service');
+      trackEvent('generate_lead', {
+        event_category: 'booking_form',
+        event_label: serviceEl ? serviceEl.value : 'Booking Form',
+        page_path: window.location.pathname
+      });
+    });
+  }
 });

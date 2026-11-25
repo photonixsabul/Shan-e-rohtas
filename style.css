@@ -1716,3 +1716,48 @@ a[href^="tel"]:hover, .gold-link:hover {
   }
   .gallery-item { height: 230px; }
 }
+
+
+/* =========================================================
+   3D SCROLL PERSPECTIVE, DEPTH & PARALLAX MOTION (60FPS GPU)
+   ========================================================= */
+.perspective-stage {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.pillar-card,
+.glass-feature-card,
+.blog-card,
+.menu-card,
+.booking-box,
+.footer-cta-strip,
+.footer-contact-card {
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+/* 3D Scroll Unfold before visible */
+.reveal.card-3d-ready {
+  opacity: 0;
+  transform: perspective(1100px) rotateX(16deg) translateY(46px) scale(0.95);
+  transform-origin: center top;
+  transition: opacity 0.9s var(--ease-luxury), transform 0.95s var(--ease-luxury), box-shadow 0.4s ease, border-color 0.35s ease;
+}
+
+.reveal.card-3d-ready.visible {
+  opacity: 1;
+  transform: perspective(1100px) rotateX(0deg) translateY(0px) scale(1);
+}
+
+/* Continuous scroll-driven 3D parallax targets */
+.scroll-3d-media {
+  will-change: transform;
+  transform-style: preserve-3d;
+  transition: transform 0.12s linear;
+}
+
+.royal-crest-logo {
+  will-change: transform;
+  transform-style: preserve-3d;
+}

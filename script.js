@@ -227,4 +227,73 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // 11. 3D Scroll Perspective Unfold & Continuous Parallax Depth (iOS/Android/Desktop 60fps)
+  const cards3d = document.querySelectorAll(
+    '.pillar-card, .glass-feature-card, .blog-card, .menu-card, .booking-box, .footer-cta-strip'
+  );
+  cards3d.forEach((card) => {
+    if (card.parentElement) {
+      card.parentElement.classList.add('perspective-stage');
+    }
+    card.classList.add('card-3d-ready');
+  });
+
+  const heroBg = document.querySelector('.hero-bg');
+  const heroCard = document.querySelector('.hero-card');
+  const splitMedias = document.querySelectorAll('.split-media img');
+  const crestLogo = document.querySelector('.royal-crest-logo');
+
+  let ticking3d = false;
+  const update3DScroll = () => {
+    const vh = window.innerHeight || 800;
+
+    // Hero background & hero card subtle 3D depth on scroll
+    if (heroBg) {
+      const sy = window.scrollY;
+      if (sy < vh * 1.4) {
+        heroBg.style.transform = `scale(1.06) translate3d(0, ${sy * 0.22}px, 0)`;
+      }
+    }
+    if (heroCard && window.innerWidth <= 960) {
+      const rect = heroCard.getBoundingClientRect();
+      const progress = Math.max(-1, Math.min(1, (rect.top + rect.height * 0.5 - vh * 0.5) / vh));
+      heroCard.style.transform = `perspective(1000px) rotateX(${(-progress * 7).toFixed(2)}deg) translateY(${(progress * -10).toFixed(1)}px)`;
+    }
+
+    // Split media 3D tilt & depth glide
+    splitMedias.forEach((img) => {
+      const box = img.parentElement;
+      if (!box) return;
+      const rect = box.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < vh) {
+        const progress = (rect.top + rect.height * 0.5 - vh * 0.5) / vh;
+        const rotX = Math.max(-8, Math.min(8, -progress * 9));
+        const transY = Math.max(-18, Math.min(18, progress * 24));
+        box.style.transform = `perspective(1100px) rotateX(${rotX.toFixed(2)}deg)`;
+        img.style.transform = `scale(1.08) translate3d(0, ${transY.toFixed(1)}px, 0)`;
+      }
+    });
+
+    // Royal Crest 3D Y-axis rotation & lift on scroll
+    if (crestLogo) {
+      const rect = crestLogo.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < vh) {
+        const progress = (rect.top + rect.height * 0.5 - vh * 0.5) / vh;
+        const rotY = Math.max(-18, Math.min(18, progress * 26));
+        const rotX = Math.max(-8, Math.min(8, -progress * 10));
+        crestLogo.style.transform = `perspective(900px) rotateY(${rotY.toFixed(2)}deg) rotateX(${rotX.toFixed(2)}deg) translateY(${(progress * -12).toFixed(1)}px)`;
+      }
+    }
+
+    ticking3d = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking3d) {
+      window.requestAnimationFrame(update3DScroll);
+      ticking3d = true;
+    }
+  }, { passive: true });
+  update3DScroll();
 });

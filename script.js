@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. Royal Preloader Curtain
   const preloader = document.getElementById('preloader');
   if (preloader) {
-    const hideLoader = () => setTimeout(() => preloader.classList.add('hide'), 400);
+    const hideLoader = () => preloader.classList.add('hide');
     if (document.readyState === 'complete') hideLoader();
     else window.addEventListener('load', hideLoader);
-    setTimeout(() => preloader.classList.add('hide'), 1700);
+    setTimeout(() => preloader.classList.add('hide'), 250);
   }
 
   // 2. Scroll Progress Gold Bar & Sticky Glass Navbar
@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
   }
+
+
+  // Immediate visibility for above-the-fold hero elements to speed up FCP & LCP
+  document.querySelectorAll('.hero .reveal, .hero .reveal-curtain').forEach((el) => {
+    el.classList.add('visible');
+  });
 
   // 4. Scroll Reveal & Curtain Unfold
   const revealEls = document.querySelectorAll('.reveal, .reveal-curtain');

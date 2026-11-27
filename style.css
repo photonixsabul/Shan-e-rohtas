@@ -93,12 +93,11 @@ a[href^="tel"]:hover, .gold-link:hover {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  transition: clip-path 0.85s var(--ease-luxury), opacity 0.55s ease, visibility 0.85s;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
   clip-path: inset(0 0 0 0);
 }
 
 .preloader.hide {
-  clip-path: inset(0 0 100% 0);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
